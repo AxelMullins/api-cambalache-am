@@ -1,0 +1,559 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Api Cambalache",
+    "description": "El reto espera evaluar la capacidad de trabajo con herramientas de desarrollo web, tales como Bases de Datos y Frameworks HTTP. Se pide construir una API que siga el estándar REST y con un método de autenticación para cada petición.",
+    "contact": {
+      "name": "Axel Mullins",
+      "url": "https://portfolio-axel-mullins.vercel.app/",
+      "email": "axelmullins94@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://api-cambalache-am.herokuapp.com",
+      "description": "Hosting Heroku"
+    },
+    {
+      "url": "http://localhost:8080",
+      "description": "localhost"
+    }
+  ],
+  "tags": [
+    {
+      "name": "users",
+      "description": "Register - Login - All users - One user - All logs - All user logs - Logout - Edit password - Delete user - Check cookies"
+    },
+    {
+      "name": "repositories",
+      "description": "New Repo - All repos - One repo - Edit repo - Delete repo"
+    }
+  ],
+  "paths": {
+    "/users/newUser": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Register",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "(CREATED) El usuario ha sido registrado correctamente"
+          },
+          "501": {
+            "description": "(Not Implemented)"
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "(OK) El usuario ha logueado correctamente && (CREATED) Historial de login"
+          },
+          "401": {
+            "description": "Usuario no autorizado"
+          },
+          "501": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/users/allUsers": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "All users",
+        "responses": {
+          "200": {
+            "description": "(OK) Todos los usuarios"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          }
+        }
+      }
+    },
+    "/users/user/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "One user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(OK) Un solo usuario filtrado por id"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          },
+          "400": {
+            "description": "Formato de ID inválido"
+          },
+          "404": {
+            "description": "No se ha encontrado un usuario con ese ID"
+          }
+        }
+      }
+    },
+    "/users/allLogs": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "All logs",
+        "responses": {
+          "200": {
+            "description": "(OK) Historial de login"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          }
+        }
+      }
+    },
+    "/users/userLogs/{id}": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "All user logs",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(OK) Historial de login de un solo usuario"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          },
+          "400": {
+            "description": "Formato de ID inválido"
+          },
+          "404": {
+            "description": "No se ha encontrado un usuario con ese ID"
+          }
+        }
+      }
+    },
+    "/users/editPassword/{id}": {
+      "put": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Edit password",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User ID",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "string"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "(OK) La contraseña se edito correctamente"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          },
+          "400": {
+            "description": "Formato de ID inválido"
+          },
+          "404": {
+            "description": "No se ha encontrado un usuario con ese ID"
+          },
+          "501": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/users/deleteUser/{id}": {
+      "delete": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Delete user",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "User Id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "(OK) Usuario borrado"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          },
+          "400": {
+            "description": "Formato de ID inválido"
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "Logout",
+        "responses": {
+          "200": {
+            "description": "(OK) El usuario ha deslogueado correctamente"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          }
+        }
+      }
+    },
+    "/users/consultarCookie": {
+      "get": {
+        "tags": [
+          "users"
+        ],
+        "summary": "All cookies",
+        "responses": {
+          "200": {
+            "description": "(OK) Todas las cookies"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) No hay cookies"
+          }
+        }
+      }
+    },
+    "/repos/newRepo": {
+      "post": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "New Repository",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "(CREATED) El repositorio ha sido registrado correctamente"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          },
+          "501": {
+            "description": "(Not Implemented)"
+          }
+        }
+      }
+    },
+    "/repos/allRepos": {
+      "get": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "All repositories",
+        "responses": {
+          "200": {
+            "description": "(OK) Todos los repositorios"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          }
+        }
+      }
+    },
+    "/repos/repo/{id}": {
+      "get": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "One repository",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "(OK) Un solo repositorio filtrado por id"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          },
+          "400": {
+            "description": "Formato de ID inválido"
+          },
+          "404": {
+            "description": "No se ha encontrado un repositorio con ese ID"
+          }
+        }
+      }
+    },
+    "/repos/editRepo/{id}": {
+      "put": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "Edit repository",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Repo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "202": {
+            "description": "(OK) El repositorio se edito correctamente"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          },
+          "400": {
+            "description": "Formato de ID inválido"
+          },
+          "404": {
+            "description": "No se ha encontrado un repositorio con ese ID"
+          },
+          "501": {
+            "description": "Error en el servidor"
+          }
+        }
+      }
+    },
+    "/repos/deleteRepo/{id}": {
+      "delete": {
+        "tags": [
+          "repositories"
+        ],
+        "summary": "Delete repository",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "_id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "(OK) Repositorio borrado"
+          },
+          "204": {
+            "description": "(SIN CONTENIDO) Debes iniciar sesion"
+          },
+          "400": {
+            "description": "Formato de ID inválido"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "object",
+            "properties": {
+              "first": {
+                "type": "string"
+              },
+              "last": {
+                "type": "string"
+              }
+            }
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          },
+          "dateOfBirth": {
+            "type": "string",
+            "format": "date"
+          },
+          "favLanguage": {
+            "type": "string",
+            "enum": [
+              "HTML5 - CSS3 - JavaScript - React Js - Node Js - Express"
+            ]
+          },
+          "socialMedia": {
+            "type": "object",
+            "properties": {
+              "github": {
+                "type": "string"
+              },
+              "linkedin": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "email",
+          "password",
+          "dateOfBirth"
+        ]
+      },
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "password"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ]
+      },
+      "Repo": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "language": {
+            "type": "string",
+            "enum": [
+              "HTML5 - CSS3 - JavaScript - React Js - Node Js - Express"
+            ]
+          },
+          "date": {
+            "type": "string",
+            "format": "date"
+          },
+          "description": {
+            "type": "string"
+          },
+          "url": {
+            "type": "object",
+            "properties": {
+              "github": {
+                "type": "string"
+              },
+              "deploy": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "required": [
+          "name",
+          "language",
+          "date"
+        ]
+      }
+    }
+  }
+}
