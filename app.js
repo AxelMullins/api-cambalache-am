@@ -4,7 +4,6 @@ const cookieParser = require('cookie-parser');
 const session = require("express-session");
 const logger = require('morgan');
 const cors = require('cors')
-const corsOptions = require("./config/corsOptions")
 require("dotenv").config();
 const swaggerUi = require('swagger-ui-express')
 const swaggerJsDoc = require('swagger-jsdoc')
@@ -29,7 +28,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(cors(corsOptions));
+app.use(cors());
 app.use(
     session({
       secret: "apiCambalache",
