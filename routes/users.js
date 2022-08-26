@@ -8,7 +8,7 @@ const validarJWT = require("../middleware/validarJWT");
 
 /* GET users listing. */
 router.post(
-  "/newUser",
+  "newUser",
   [
     check("name").not().isEmpty().withMessage("Debes ingresar un nombre"),
     check("email")
