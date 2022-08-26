@@ -12,7 +12,7 @@
   },
   "servers": [
     {
-      "url": "https://api-cambalache-am.herokuapp.com",
+      "url": "https://api-cambalache-am.herokuapp.com/",
       "description": "Hosting Heroku"
     },
     {
